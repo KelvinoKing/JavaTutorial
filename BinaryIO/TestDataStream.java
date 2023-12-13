@@ -4,7 +4,7 @@ public class TestDataStream{
     public static void main(String[] args) throws IOException{
         try(
             DataOutputStream output = 
-            new DataOutputStream(new FileOutputStream("temp.dat"));
+            new DataOutputStream(new BufferedOutputStream(new FileOutputStream("temp.dat")));
             ){
                 output.writeUTF("John");
                 output.writeDouble(85.5);
@@ -16,7 +16,7 @@ public class TestDataStream{
 
         try(
             DataInputStream input = 
-            new DataInputStream(new FileInputStream("temp.dat"));
+            new DataInputStream(new BufferedInputStream(new FileInputStream("temp.dat")));
         ){
             System.out.println(input.readUTF() + " " + input.readDouble());
             System.out.println(input.readUTF() + " " + input.readDouble());
