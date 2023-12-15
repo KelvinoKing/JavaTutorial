@@ -1,4 +1,5 @@
-import java.io.*;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 
 public class ManipulateData{
 
@@ -76,6 +77,14 @@ public class ManipulateData{
         }
     }
 
+    /**
+     * @param name
+     * @param street
+     * @param city
+     * @param state
+     * @param zip
+     * @throws IOException
+     */
     public void updateRecord(String name, String street, String city, String state, String zip) throws IOException{
         this.name = paddString(name, NAME_SIZE);
         this.street = paddString(street, STREET_SIZE);
