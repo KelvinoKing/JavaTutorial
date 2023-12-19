@@ -1,3 +1,4 @@
+import java.util.Arrays;
 public class RecursiveSelectionSort {
     
     public static void sort(double list[]){
@@ -27,18 +28,10 @@ public class RecursiveSelectionSort {
 
         double[] list = {8.9, 2.4, 6, 7.8, 2.4, 10.2, 1, 4.6};
 
-        System.out.print("Array bofore sorting: ");
-        for(int i = 0; i < list.length; i++){
-            System.out.print(list[i] + ", ");
-        }
+        System.out.println("Array before sorting: " + Arrays.toString(list));
 
-        System.out.println();
         sort(list);
 
-        System.out.print("Array after sorting: ");
-        for(int i = 0; i < list.length; i++){
-            System.out.print(list[i] + ", ");
-        }
-        System.out.println();
+        System.out.println("Array after sorting: " + Arrays.toString(list));
     }
 }
