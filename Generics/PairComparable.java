@@ -1,6 +1,6 @@
 /**
- * (Pair of objects of the same type) Create a Pair class that encapsulates two objects
- * of the same data type in an instance of Pair.
+ * (Using wildcards) Write a generic static method that returns the smallest value in an
+ * instance of Pair from Programming Exercise 19.3.
  */
 
  public class PairComparable<T extends Comparable<T>>{
@@ -36,10 +36,10 @@
     // Example of Usage
 
     public static void main(String[] args){
-        Pair<Integer> first = new Pair<Integer>(1, 2);
+        PairComparable<Integer> first = new PairComparable<Integer>(1, 2);
         System.out.println(first);
 
-        Pair<String> second = new Pair<String>("Hello", "World!");
+        PairComparable<String> second = new PairComparable<String>("Hello", "World!");
         System.out.println(second);
 
         System.out.println("The smallest object is: " + findSmallest(first));
@@ -47,7 +47,7 @@
 
     }
 
-    public static <T extends Comparable<T>> T findSmallest(Pair<T> obj){
+    public static <T extends Comparable<? super T>> T findSmallest(PairComparable<? extends T> obj){
         T first = obj.getFirst();
         T second = obj.getSecond();
 
