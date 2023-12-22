@@ -11,6 +11,7 @@ public class GenericStack<E> {
     public int getSize(){
         return size;
     }
+    @SuppressWarnings("unchecked")
     public E peek(){
         if (isEmpty()){
             throw new java.util.EmptyStackException();
@@ -22,6 +23,7 @@ public class GenericStack<E> {
         ensureCapacity();
         list[size++] = o;
     }
+    @SuppressWarnings("unchecked")
     public E pop(){
         if (isEmpty()){
             throw new java.util.EmptyStackException();
