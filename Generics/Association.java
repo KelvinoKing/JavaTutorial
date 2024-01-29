@@ -1,3 +1,9 @@
+/**
+ * (Several types) Create an Association class that encapsulates two objects of different
+ * types. Similar to Programming Exercise 19.5, create a Transition class that does the
+ * same of Association class with three objects
+ */
+
 public class Association<U, T>{
     private U first;
     private T second;
