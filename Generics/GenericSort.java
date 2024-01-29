@@ -2,7 +2,7 @@ public class GenericSort{
 
     public static void main(String[] args){
 
-        Integer[] intArray = {2, 4, 3};
+        Integer[] intArray = {new Integer(2), new Integer(4), new Integer(3)};
         Double[] doubleArray = {3.4, 1.3, -22.1};
         Character[] charArray = {'a', 'J', 'r'};
         String[] strArray = {"Tom", "Sussan", "Kim"};
