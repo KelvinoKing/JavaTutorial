@@ -1,0 +1,113 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        },
+        {
+            "type": "java",
+            "name": "MaxMin",
+            "request": "launch",
+            "mainClass": "MaxMin",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        },
+        {
+            "type": "java",
+            "name": "ReadFile",
+            "request": "launch",
+            "mainClass": "ReadFile",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        },
+        {
+            "type": "java",
+            "name": "Shuffle",
+            "request": "launch",
+            "mainClass": "Shuffle",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        },
+        {
+            "vmArgs": "--module-path \"/home/kelvino/Downloads/javafx-sdk-21.0.3/lib\" --add-modules javafx.controls,javafx.fxml",
+            "type": "java",
+            "name": "StoreNumsLinkedList",
+            "request": "launch",
+            "mainClass": "StoreNumsLinkedList",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        },
+        {
+            "type": "java",
+            "name": "TesForEachStringBuilber",
+            "request": "launch",
+            "mainClass": "TesForEachStringBuilber",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        },
+        {
+            "type": "java",
+            "name": "Test",
+            "request": "launch",
+            "mainClass": "Test",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        },
+        {
+            "type": "java",
+            "name": "Test2",
+            "request": "launch",
+            "mainClass": "Test2",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        },
+        {
+            "type": "java",
+            "name": "TestArrayAndLinkedList",
+            "request": "launch",
+            "mainClass": "TestArrayAndLinkedList",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        },
+        {
+            "type": "java",
+            "name": "TestCollection",
+            "request": "launch",
+            "mainClass": "TestCollection",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        },
+        {
+            "type": "java",
+            "name": "TestForEach",
+            "request": "launch",
+            "mainClass": "TestForEach",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        },
+        {
+            "type": "java",
+            "name": "TestIterator",
+            "request": "launch",
+            "mainClass": "TestIterator",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        },
+        {
+            "type": "java",
+            "name": "TestPriorityQueue",
+            "request": "launch",
+            "mainClass": "TestPriorityQueue",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        },
+        {
+            "type": "java",
+            "name": "TestQueue",
+            "request": "launch",
+            "mainClass": "TestQueue",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        }
+    ]
+}
