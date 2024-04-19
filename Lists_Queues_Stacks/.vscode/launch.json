@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ImplementComparable",
+            "request": "launch",
+            "mainClass": "ImplementComparable",
+            "projectName": "Lists_Queues_Stacks_2f71b779"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
