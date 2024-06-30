@@ -23,8 +23,10 @@ public class App extends Application{
 
         Button btAdd = new Button("+");
         Button btSubtract = new Button("-");
+        Button btSuspend = new Button("Suspend");
+        Button btResume = new Button("Resume");
         HBox hBox = new HBox(10);
-        hBox.getChildren().addAll(btAdd, btSubtract);
+        hBox.getChildren().addAll(btSuspend, btResume, btAdd, btSubtract);
         hBox.setAlignment(Pos.CENTER);
 
         // Add or remove a ball
@@ -34,6 +36,8 @@ public class App extends Application{
         // Pause and resume animation
         ballPane.setOnMousePressed(e -> ballPane.pause());
         ballPane.setOnMouseReleased(e -> ballPane.play());
+        btSuspend.setOnAction(e -> ballPane.pause());
+        btResume.setOnAction(e -> ballPane.play());
 
         // Use a scroll bar to control animation speed
         ScrollBar sbSpeed = new ScrollBar();
