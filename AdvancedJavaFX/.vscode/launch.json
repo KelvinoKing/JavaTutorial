@@ -7,6 +7,14 @@
     {
       "vmArgs": "--module-path \"/home/kelvino/Downloads/javafx-sdk-21.0.3/lib\" --add-modules javafx.controls,javafx.fxml",
       "type": "java",
+      "name": "ScaleDemo",
+      "request": "launch",
+      "mainClass": "ScaleDemo",
+      "projectName": "AdvancedJavaFX_e41bf5fb"
+    },
+    {
+      "vmArgs": "--module-path \"/home/kelvino/Downloads/javafx-sdk-21.0.3/lib\" --add-modules javafx.controls,javafx.fxml",
+      "type": "java",
       "name": "RotateDemo",
       "request": "launch",
       "mainClass": "RotateDemo",
