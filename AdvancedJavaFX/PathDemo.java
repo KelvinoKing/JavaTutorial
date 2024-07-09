@@ -2,7 +2,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class PathDemo extends Application {
