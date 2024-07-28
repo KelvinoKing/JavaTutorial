@@ -7,6 +7,14 @@
     {
       "vmArgs": "--module-path \"/home/kelvino/Downloads/javafx-sdk-21.0.3/lib\" --add-modules javafx.controls,javafx.fxml",
       "type": "java",
+      "name": "AddNewRowDemo",
+      "request": "launch",
+      "mainClass": "AddNewRowDemo",
+      "projectName": "AdvancedJavaFX_e41bf5fb"
+    },
+    {
+      "vmArgs": "--module-path \"/home/kelvino/Downloads/javafx-sdk-21.0.3/lib\" --add-modules javafx.controls,javafx.fxml",
+      "type": "java",
       "name": "TableViewDemo",
       "request": "launch",
       "mainClass": "TableViewDemo",
