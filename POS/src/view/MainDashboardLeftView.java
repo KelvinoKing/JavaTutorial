@@ -4,7 +4,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import controller.MainDashboardLeftController;
+import controller.SalesController;
+import controller.AccountsController;
+import controller.ProductionController;
 
 
 public class MainDashboardLeftView extends VBox {
@@ -82,7 +84,17 @@ public class MainDashboardLeftView extends VBox {
 
     btSales.setOnAction(e -> {
       System.out.println("Sales button clicked");
-      new MainDashboardLeftController();
+      new SalesController();
+    });
+
+    btAccounts.setOnAction(e -> {
+      System.out.println("Accounts button clicked");
+      new AccountsController();
+    });
+
+    btProduction.setOnAction(e -> {
+      System.out.println("Production button clicked");
+      new ProductionController();
     });
   }
 }

@@ -9,6 +9,8 @@ import javafx.scene.layout.Pane;
 import view.Welcome;
 import view.MainDashboardLeftView;
 import view.SalesView;
+import view.AccountsView;
+import view.ProductionView;
 import controller.WelcomeController;
 
 public class App extends Application {
@@ -50,6 +52,28 @@ public class App extends Application {
     public static void addCenterSales() {
         pane.setCenter(null);
         pane.setCenter(new SalesView());
+    }
+
+    public static void addCenterAccounts() {
+        pane.setCenter(null);
+        pane.setCenter(new AccountsView());
+    }
+
+    public static void addCenterProduction() {
+        pane.setCenter(null);
+        pane.setCenter(new ProductionView());
+    }
+
+    public static void addCenterWarehouse(Pane center) {
+        pane.setCenter(null);
+    }
+
+    public static void addCenterHumanResource(Pane center) {
+        pane.setCenter(null);
+    }
+
+    public static void addCenterAdmin(Pane center) {
+        pane.setCenter(null);
     }
     public static void main(String[] args) throws Exception {
         launch(args);
