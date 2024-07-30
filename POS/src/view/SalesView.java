@@ -11,7 +11,7 @@ public class SalesView extends StackPane {
     super();
     SplitPane salesContent = new SplitPane();
     salesContent.setOrientation(Orientation.HORIZONTAL);
-    salesContent.setDividerPositions(0.5);
+    salesContent.setDividerPositions(0.2);
 
     StackPane left = new StackPane();
     left.setStyle("-fx-background-color: cyan;");

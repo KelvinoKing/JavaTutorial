@@ -7,6 +7,9 @@ import javafx.scene.layout.VBox;
 import controller.SalesController;
 import controller.AccountsController;
 import controller.ProductionController;
+import controller.WarehouseController;
+import controller.HumanResourceController;
+import controller.AdminController;
 
 
 public class MainDashboardLeftView extends VBox {
@@ -80,21 +83,68 @@ public class MainDashboardLeftView extends VBox {
     btHR.getStyleClass().add("file-button");
     btHR.setTooltip(new Tooltip("Human Resource"));
 
-    getChildren().addAll(btSales, btAccounts, btProduction, btWarehouse, btHR, btAdmin);
+    this.getChildren().addAll(btSales, btAccounts, btProduction, btWarehouse, btHR, btAdmin);
 
     btSales.setOnAction(e -> {
-      System.out.println("Sales button clicked");
       new SalesController();
+      // Set left border color to white 4px
+      btSales.setStyle("-fx-border-color: white; -fx-border-width: 0.8px;");
+      btAccounts.setStyle("-fx-border-color: none;");
+      btProduction.setStyle("-fx-border-color: none;");
+      btWarehouse.setStyle("-fx-border-color: none;");
+      btHR.setStyle("-fx-border-color: none;");
+      btAdmin.setStyle("-fx-border-color: none;");
     });
 
     btAccounts.setOnAction(e -> {
-      System.out.println("Accounts button clicked");
       new AccountsController();
+      // Reset the btSales border color
+      btAccounts.setStyle("-fx-border-color: white; -fx-border-width: 0.8px;");
+      btSales.setStyle("-fx-border-color: none;");
+      btProduction.setStyle("-fx-border-color: none;");
+      btWarehouse.setStyle("-fx-border-color: none;");
+      btHR.setStyle("-fx-border-color: none;");
+      btAdmin.setStyle("-fx-border-color: none;");
     });
 
     btProduction.setOnAction(e -> {
-      System.out.println("Production button clicked");
       new ProductionController();
+      btProduction.setStyle("-fx-border-color: white; -fx-border-width: 0.8px;");
+      btSales.setStyle("-fx-border-color: none;");
+      btAccounts.setStyle("-fx-border-color: none;");
+      btWarehouse.setStyle("-fx-border-color: none;");
+      btHR.setStyle("-fx-border-color: none;");
+      btAdmin.setStyle("-fx-border-color: none;");
+    });
+
+    btWarehouse.setOnAction(e -> {
+      new WarehouseController();
+      btWarehouse.setStyle("-fx-border-color: white; -fx-border-width: 0.8px;");
+      btSales.setStyle("-fx-border-color: none;");
+      btAccounts.setStyle("-fx-border-color: none;");
+      btProduction.setStyle("-fx-border-color: none;");
+      btHR.setStyle("-fx-border-color: none;");
+      btAdmin.setStyle("-fx-border-color: none;");
+    });
+
+    btHR.setOnAction(e -> {
+      new HumanResourceController();
+      btHR.setStyle("-fx-border-color: white; -fx-border-width: 0.8px;");
+      btSales.setStyle("-fx-border-color: none;");
+      btAccounts.setStyle("-fx-border-color: none;");
+      btProduction.setStyle("-fx-border-color: none;");
+      btWarehouse.setStyle("-fx-border-color: none;");
+      btAdmin.setStyle("-fx-border-color: none;");
+    });
+
+    btAdmin.setOnAction(e -> {
+      new AdminController();
+      btAdmin.setStyle("-fx-border-color: white; -fx-border-width: 0.8px;");
+      btSales.setStyle("-fx-border-color: none;");
+      btAccounts.setStyle("-fx-border-color: none;");
+      btProduction.setStyle("-fx-border-color: none;");
+      btWarehouse.setStyle("-fx-border-color: none;");
+      btHR.setStyle("-fx-border-color: none;");
     });
   }
 }

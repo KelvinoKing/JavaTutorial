@@ -8,9 +8,8 @@ import javafx.scene.layout.StackPane;
 public class AccountsView extends StackPane {
   public AccountsView() {
     super();
-    SplitPane salesContent = new SplitPane();
-    salesContent.setOrientation(Orientation.HORIZONTAL);
-    salesContent.setDividerPositions(0.5);
+    SplitPane accountsContent = new SplitPane();
+    accountsContent.setOrientation(Orientation.HORIZONTAL);
 
     StackPane left = new StackPane();
     left.setStyle("-fx-background-color: cyan;");
@@ -20,7 +19,8 @@ public class AccountsView extends StackPane {
     right.setStyle("-fx-background-color: lightblue;");
     right.getChildren().add(new Label("Accounts"));
 
-    salesContent.getItems().addAll(left, right);
-    getChildren().add(salesContent);
+    accountsContent.getItems().addAll(left, right);
+    accountsContent.setDividerPositions(0.2);
+    this.getChildren().add(accountsContent);
   }
 }

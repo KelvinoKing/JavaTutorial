@@ -11,6 +11,9 @@ import view.MainDashboardLeftView;
 import view.SalesView;
 import view.AccountsView;
 import view.ProductionView;
+import view.WarehouseView;
+import view.HumanResourceView;
+import view.AdminView;
 import controller.WelcomeController;
 
 public class App extends Application {
@@ -43,7 +46,7 @@ public class App extends Application {
     public static void addLeft() {
         Pane left = new Pane();
         // Use javafx to set background color to cyan
-        left.setStyle("-fx-background-color: cyan;");
+        left.setStyle("-fx-background-color: #007acc;");
         left.getChildren().add(new MainDashboardLeftView());
         pane.setLeft(left);
     }
@@ -64,16 +67,19 @@ public class App extends Application {
         pane.setCenter(new ProductionView());
     }
 
-    public static void addCenterWarehouse(Pane center) {
+    public static void addCenterWarehouse() {
         pane.setCenter(null);
+        pane.setCenter(new WarehouseView());
     }
 
-    public static void addCenterHumanResource(Pane center) {
+    public static void addCenterHumanResource() {
         pane.setCenter(null);
+        pane.setCenter(new HumanResourceView());
     }
 
-    public static void addCenterAdmin(Pane center) {
+    public static void addCenterAdmin() {
         pane.setCenter(null);
+        pane.setCenter(new AdminView());
     }
     public static void main(String[] args) throws Exception {
         launch(args);
