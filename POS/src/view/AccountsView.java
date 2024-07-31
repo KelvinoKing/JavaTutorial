@@ -1,26 +1,56 @@
 package view;
 
-import javafx.geometry.Orientation;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.geometry.Pos;
+import controller.AccountsController;
 
-public class AccountsView extends StackPane {
+public class AccountsView extends BorderPane {
+  private final MenuBar menuBar = new MenuBar();
+
+  private final Menu transactions = new Menu("Transactions");
+  private final MenuItem addTransaction = new MenuItem("Add Transaction");
+  private final MenuItem viewTransactions = new MenuItem("View Transactions");
+
+  private final Menu records = new Menu("Records");
+  private final MenuItem transactionRecords = new MenuItem("Transaction Records");
+
+  private final Menu reports = new Menu("Reports");
+  private final MenuItem transactionReport = new MenuItem("Transaction Report");
+
+  private final Menu help = new Menu("Help");
+  private final MenuItem about = new MenuItem("About");
+  private final MenuItem contact = new MenuItem("Contact");
+
   public AccountsView() {
     super();
-    SplitPane accountsContent = new SplitPane();
-    accountsContent.setOrientation(Orientation.HORIZONTAL);
+    menuBar.getMenus().addAll(
+      transactions, records, reports, help
+    );
 
-    StackPane left = new StackPane();
-    left.setStyle("-fx-background-color: cyan;");
-    left.getChildren().add(new Label("Accounts"));
+    transactions.getItems().addAll(
+      addTransaction, viewTransactions
+    );
 
-    StackPane right = new StackPane();
-    right.setStyle("-fx-background-color: lightblue;");
-    right.getChildren().add(new Label("Accounts"));
+    records.getItems().addAll(
+      transactionRecords
+    );
 
-    accountsContent.getItems().addAll(left, right);
-    accountsContent.setDividerPositions(0.2);
-    this.getChildren().add(accountsContent);
+    reports.getItems().addAll(
+      transactionReport
+    );
+
+    help.getItems().addAll(
+      about, contact
+    );
+
+    this.setTop(menuBar);
+    BorderPane.setAlignment(menuBar, Pos.TOP_CENTER);
+
+    addTransaction.setOnAction(e -> {
+      AccountsController.addTransaction();
+    });
   }
 }
