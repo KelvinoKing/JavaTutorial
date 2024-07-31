@@ -51,6 +51,11 @@ public class App extends Application {
         pane.setLeft(left);
     }
 
+    // Add a node to the center of the app window
+    public static void addCenter() {
+        pane.setCenter(new BouncyBall());
+    }
+
     // Add a node at the center of the app window
     public static void addCenterSales() {
         pane.setCenter(null);

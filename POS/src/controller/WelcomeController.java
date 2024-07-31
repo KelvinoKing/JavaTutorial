@@ -11,6 +11,7 @@ public class WelcomeController{
             App.clear();
             // Add a node to the app window
             App.addLeft();
+            App.addCenter();
         });
     }
 }

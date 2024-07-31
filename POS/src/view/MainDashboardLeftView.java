@@ -23,6 +23,7 @@ public class MainDashboardLeftView extends VBox {
 
   public MainDashboardLeftView() {
     super();
+
     btSales = new Button();
     ImageView ivSales = new ImageView("file:images/SalesDept.png");
     ivSales.setFitHeight(50);
