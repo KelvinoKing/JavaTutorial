@@ -22,9 +22,7 @@ public class SalesView extends BorderPane {
   private final MenuItem customerReport = new MenuItem("Customer Report");
 
   private final Menu inventory = new Menu("Inventory");
-  private final MenuItem addProduct = new MenuItem("Add Product");
   private final MenuItem viewProducts = new MenuItem("View Products");
-  private final MenuItem productReport = new MenuItem("Product Report");
 
   private final Menu payments = new Menu("Payments");
   private final MenuItem viewPayments = new MenuItem("View Payments");
@@ -60,7 +58,7 @@ public class SalesView extends BorderPane {
 
     orders.getItems().addAll(createOrder, pendingOrder, completedOrder);
     customers.getItems().addAll(addCustomer, viewCustomers, customerReport);
-    inventory.getItems().addAll(addProduct, viewProducts, productReport);
+    inventory.getItems().addAll(viewProducts);
     payments.getItems().addAll(viewPayments, paymentReport);
     records.getItems().addAll(orderRecords, customerRecords, productRecords, paymentRecords);
     reports.getItems().addAll(salesReport, salesSummary, salesByCustomer, salesByProduct);

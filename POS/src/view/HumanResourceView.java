@@ -1,27 +1,51 @@
 package view;
 
-import javafx.geometry.Orientation;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.geometry.Pos;
+import controller.HumanResourceController;
 
 
-public class HumanResourceView extends StackPane {
+public class HumanResourceView extends BorderPane {
+  private final MenuBar menuBar = new MenuBar();
+
+  private final Menu employees = new Menu("Employees");
+  private final MenuItem addEmployee = new MenuItem("Add Employee");
+  private final MenuItem viewEmployees = new MenuItem("View Employees");
+  private final MenuItem employeeReport = new MenuItem("Employee Report");
+
+  private final Menu records = new Menu("Records");
+  private final MenuItem employeeRecords = new MenuItem("Employee Records");
+
+  private final Menu help = new Menu("Help");
+  private final MenuItem about = new MenuItem("About");
+  private final MenuItem contact = new MenuItem("Contact");
+
   public HumanResourceView() {
     super();
-    SplitPane humanResourceContent = new SplitPane();
-    humanResourceContent.setOrientation(Orientation.HORIZONTAL);
-    humanResourceContent.setDividerPositions(0.2);
+    menuBar.getMenus().addAll(
+      employees, records, help
+    );
 
-    StackPane left = new StackPane();
-    left.setStyle("-fx-background-color: cyan;");
-    left.getChildren().add(new Label("Human Resource"));
+    employees.getItems().addAll(
+      addEmployee, viewEmployees, employeeReport
+    );
 
-    StackPane right = new StackPane();
-    right.setStyle("-fx-background-color: lightblue;");
-    right.getChildren().add(new Label("Human Resource"));
+    records.getItems().addAll(
+      employeeRecords
+    );
 
-    humanResourceContent.getItems().addAll(left, right);
-    getChildren().add(humanResourceContent);
+    help.getItems().addAll(
+      about, contact
+    );
+
+    this.setTop(menuBar);
+    BorderPane.setAlignment(menuBar, Pos.TOP_CENTER);
+
+    addEmployee.setOnAction(e -> {
+      HumanResourceController.addEmployee();
+    });
   }
 }

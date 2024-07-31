@@ -1,27 +1,59 @@
 package view;
 
-import javafx.geometry.Orientation;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.geometry.Pos;
+import controller.ProductionController;
 
 
-public class ProductionView extends StackPane{
+public class ProductionView extends BorderPane{
+  private final MenuBar menuBar = new MenuBar();
+
+  private final Menu production = new Menu("Production");
+  private final MenuItem addProduction = new MenuItem("Add Production");
+  private final MenuItem pendingProduction = new MenuItem("Pending Production");
+  private final MenuItem completedProduction = new MenuItem("Completed Production");
+  private final MenuItem viewProduction = new MenuItem("View Production");
+
+  private final Menu records = new Menu("Records");
+  private final MenuItem productionRecords = new MenuItem("Production Records");
+
+  private final Menu reports = new Menu("Reports");
+  private final MenuItem productionReport = new MenuItem("Production Report");
+
+  private final Menu help = new Menu("Help");
+  private final MenuItem about = new MenuItem("About");
+  private final MenuItem contact = new MenuItem("Contact");
+
   public ProductionView() {
     super();
-    SplitPane salesContent = new SplitPane();
-    salesContent.setOrientation(Orientation.HORIZONTAL);
-    salesContent.setDividerPositions(0.2);
+    menuBar.getMenus().addAll(
+      production, records, reports, help
+    );
 
-    StackPane left = new StackPane();
-    left.setStyle("-fx-background-color: cyan;");
-    left.getChildren().add(new Label("Production"));
+    production.getItems().addAll(
+      addProduction, pendingProduction, completedProduction, viewProduction
+    );
 
-    StackPane right = new StackPane();
-    right.setStyle("-fx-background-color: lightblue;");
-    right.getChildren().add(new Label("Production"));
+    records.getItems().addAll(
+      productionRecords
+    );
 
-    salesContent.getItems().addAll(left, right);
-    getChildren().add(salesContent);
+    reports.getItems().addAll(
+      productionReport
+    );
+
+    help.getItems().addAll(
+      about, contact
+    );
+
+    this.setTop(menuBar);
+    BorderPane.setAlignment(menuBar, Pos.TOP_CENTER);
+
+    addProduction.setOnAction(e -> {
+      ProductionController.addProduction();
+    });
   }
 }

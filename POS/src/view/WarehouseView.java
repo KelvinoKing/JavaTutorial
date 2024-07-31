@@ -1,28 +1,60 @@
 package view;
 
-import javafx.scene.control.SplitPane;
-import javafx.scene.layout.StackPane;
-import javafx.geometry.Orientation;
-import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.geometry.Pos;
+import controller.WarehouseController;
 
 
-public class WarehouseView extends StackPane {
+public class WarehouseView extends BorderPane {
+  private final MenuBar menuBar = new MenuBar();
+
+  private final Menu orders = new Menu("Orders");
+  private final MenuItem incomingOrders = new MenuItem("Orders");
+  private final MenuItem waitingCollection = new MenuItem("Waiting Collection");
+  private final MenuItem dispatchedOrder = new MenuItem("Dispatched Orders");
+
+  private final Menu inventory = new Menu("Inventory");
+  private final MenuItem addProduct = new MenuItem("Add Product");
+  private final MenuItem viewProducts = new MenuItem("View Products");
+  private final MenuItem productRecords = new MenuItem("Product Records");
+
+  private final Menu reports = new Menu("Reports");
+  private final MenuItem inventoryReport = new MenuItem("Inventory Report");
+
+  private final Menu help = new Menu("Help");
+  private final MenuItem about = new MenuItem("About");
+  private final MenuItem contact = new MenuItem("Contact");
+
   public WarehouseView() {
     super();
-    SplitPane warehouseContent = new SplitPane();
-    warehouseContent.setOrientation(Orientation.HORIZONTAL);
+    menuBar.getMenus().addAll(
+      orders, inventory, reports, help
+    );
 
-    StackPane left = new StackPane();
-    left.setStyle("-fx-background-color: cyan;");
-    left.getChildren().add(new Label("Warehouse"));
+    orders.getItems().addAll(
+      incomingOrders, waitingCollection, dispatchedOrder
+    );
 
-    StackPane right = new StackPane();
-    right.setStyle("-fx-background-color: lightblue;");
-    right.getChildren().add(new Label("Warehouse"));
+    inventory.getItems().addAll(
+      addProduct, viewProducts, productRecords
+    );
 
-    warehouseContent.getItems().addAll(left, right);
-    warehouseContent.setDividerPositions(0.2);
-    this.getChildren().add(warehouseContent);
+    reports.getItems().addAll(
+      inventoryReport
+    );
+
+    help.getItems().addAll(
+      about, contact
+    );
+
+    this.setTop(menuBar);
+    BorderPane.setAlignment(menuBar, Pos.TOP_CENTER);
+
+    addProduct.setOnAction(e -> {
+      WarehouseController.addProduct();
+    });
   }
-  
 }
