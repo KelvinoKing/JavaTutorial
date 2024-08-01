@@ -50,6 +50,9 @@ public class Order {
   public String getOrderNumber() {
     return orderNumber;
   }
+  public void setOrderNumber(String orderNumber) {
+    this.orderNumber = orderNumber;
+  }
 
   public String getCustomerFirstName() {
     return customerFirstName;
@@ -151,6 +154,9 @@ public class Order {
 
   public Date getOrderDate() {
     return orderDate;
+  }
+  public void setOrderDate(Date orderDate) {
+    this.orderDate = orderDate;
   }
 
   public String getOrderStatus() {

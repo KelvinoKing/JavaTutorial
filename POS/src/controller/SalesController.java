@@ -2,6 +2,7 @@ package controller;
 
 import main.App;
 import model.Order;
+import utils.Storage;
 
 
 public class SalesController {
@@ -36,7 +37,8 @@ public class SalesController {
     }
 
     // Print the order details
-    System.out.println(order.toString());
+    Storage storage = new Storage();
+    storage.saveOrder(order);
   }
 
   public void updateOrders() {

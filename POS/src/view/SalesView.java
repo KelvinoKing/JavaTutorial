@@ -350,13 +350,7 @@ public class SalesView extends BorderPane {
   public void pendingOrderPane(){
     // Use table view to display pending orders
     TableView<Order> orderTable = new TableView<>();
-    ObservableList<Order> orderList = FXCollections.observableArrayList(
-      new Order(
-        "John", "Doe", "knjoroge@gmail.com",
-        "0712345678", "Nairobi", "Kenya", "Kasarani", "Roof Sheets", "Box Profile", "Black", "Glosy", 30, 10, 100.0),
-      new Order("Jane", "Doe", "janedoe@outlook.com",
-        "0712345678", "Nairobi", "Kenya", "Kasarani", "Roll Tops", "Corrugated", "Blue", "Matt", 32, 20, 150.0)
-    );
+    ObservableList<Order> orderList = FXCollections.observableArrayList();
 
     orderTable.setItems(orderList);
     orderTable.setEditable(false);
@@ -509,7 +503,7 @@ public class SalesView extends BorderPane {
       colProductName, colProductProfile, colProductColor, colProductTexture, colProductGauge,
       colProductQuantity, colProductPerMeter
     );
-    
+
     this.setCenter(orderTable);
   }
 }
