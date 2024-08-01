@@ -6,6 +6,8 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import view.Welcome;
 import view.MainDashboardLeftView;
 import view.SalesView;

@@ -1,60 +1,68 @@
 package model;
 
+import java.util.Date;
+
+
 public class Order {
   private String orderNumber;
-  private String customerName;
+  private String customerFirstName;
+  private String customerLastName;
   private String customerEmail;
   private String customerPhoneNumber;
-  private String customerAddress;
+  private String customerLocation;
   private String customerCity;
   private String customerCountry;
   private String productName;
-  private String productDescription;
-  private double productPrice;
+  private String productProfile;
+  private String productColor;
+  private String productTexture;
+  private int productGauge;
   private int productQuantity;
   private double productPerMeter;
-  private double productTotal;
-  private double productDiscount;
-  private double productSubtotal;
-  private double productTax;
-  private double productShipping;
-  private double productGrandTotal;
+  private Date orderDate;
+  private String orderStatus;
 
   public Order(
-    String customerName, String customerEmail,
-    String customerPhoneNumber, String customerAddress, String customerCity,
-    String customerCountry, String productName, String productDescription,
-    double productPrice, int productQuantity, double productPerMeter, double productDiscount,
-    double productTax, double productShipping) {
+    String customerFirstName, String customerLastName, String customerEmail, String customerPhoneNumber,
+    String customerCity, String customerCountry, String customerLocation, String productName,
+    String productProfile, String productColor, String productTexture, int productGauge,
+    int productQuantity, double productPerMeter
+    ) {
     this.orderNumber = java.util.UUID.randomUUID().toString();
-    this.customerName = customerName;
+    this.orderDate = new Date();
+    this.customerFirstName = customerFirstName;
+    this.customerLastName = customerLastName;
     this.customerEmail = customerEmail;
     this.customerPhoneNumber = customerPhoneNumber;
-    this.customerAddress = customerAddress;
+    this.customerLocation = customerLocation;
     this.customerCity = customerCity;
     this.customerCountry = customerCountry;
     this.productName = productName;
-    this.productDescription = productDescription;
-    this.productPrice = productPrice;
+    this.productProfile = productProfile;
+    this.productColor = productColor;
+    this.productTexture = productTexture;
+    this.productGauge = productGauge;
     this.productQuantity = productQuantity;
     this.productPerMeter = productPerMeter;
-    this.productDiscount = productDiscount;
-    this.productTax = productTax;
-    this.productShipping = productShipping;
-    this.productTotal = productPrice * (productQuantity * productPerMeter);
-    this.productSubtotal = this.productTotal - this.productDiscount;
-    this.productGrandTotal = this.productSubtotal + this.productTax + this.productShipping;
+    this.orderStatus = "Pending";
   }
 
   public String getOrderNumber() {
     return orderNumber;
   }
 
-  public String getCustomerName() {
-    return customerName;
+  public String getCustomerFirstName() {
+    return customerFirstName;
   }
-  public void setCustomerName(String customerName) {
-    this.customerName = customerName;
+  public void setCustomerFirstName(String customerFirstName) {
+    this.customerFirstName = customerFirstName;
+  }
+
+  public String getCustomerLastName() {
+    return customerLastName;
+  }
+  public void setCustomerLastName(String customerLastName) {
+    this.customerLastName = customerLastName;
   }
 
   public String getCustomerEmail() {
@@ -71,11 +79,11 @@ public class Order {
     this.customerPhoneNumber = customerPhoneNumber;
   }
 
-  public String getCustomerAddress() {
-    return customerAddress;
+  public String getCustomerLocation() {
+    return customerLocation;
   }
-  public void setCustomerAddress(String customerAddress) {
-    this.customerAddress = customerAddress;
+  public void setCustomerLocation(String customerLocation) {
+    this.customerLocation = customerLocation;
   }
 
   public String getCustomerCity() {
@@ -99,18 +107,32 @@ public class Order {
     this.productName = productName;
   }
 
-  public String getProductDescription() {
-    return productDescription;
+  public String getProductProfile() {
+    return productProfile;
   }
-  public void setProductDescription(String productDescription) {
-    this.productDescription = productDescription;
+  public void setProductProfile(String productProfile) {
+    this.productProfile = productProfile;
   }
 
-  public double getProductPrice() {
-    return productPrice;
+  public String getProductColor() {
+    return productColor;
   }
-  public void setProductPrice(double productPrice) {
-    this.productPrice = productPrice;
+  public void setProductColor(String productColor) {
+    this.productColor = productColor;
+  }
+
+  public String getProductTexture() {
+    return productTexture;
+  }
+  public void setProductTexture(String productTexture) {
+    this.productTexture = productTexture;
+  }
+
+  public int getProductGauge() {
+    return productGauge;
+  }
+  public void setProductGauge(int productGauge) {
+    this.productGauge = productGauge;
   }
 
   public int getProductQuantity() {
@@ -127,69 +149,38 @@ public class Order {
     this.productPerMeter = productPerMeter;
   }
 
-  public double getProductTotal() {
-    return productTotal;
-  }
-  public void setProductTotal(double productTotal) {
-    this.productTotal = productTotal;
+  public Date getOrderDate() {
+    return orderDate;
   }
 
-  public double getProductDiscount() {
-    return productDiscount;
-  }
-  public void setProductDiscount(double productDiscount) {
-    this.productDiscount = productDiscount;
+  public String getOrderStatus() {
+    return orderStatus;
   }
 
-  public double getProductSubtotal() {
-    return productSubtotal;
-  }
-  public void setProductSubtotal(double productSubtotal) {
-    this.productSubtotal = productSubtotal;
-  }
-
-  public double getProductTax() {
-    return productTax;
-  }
-  public void setProductTax(double productTax) {
-    this.productTax = productTax;
-  }
-
-  public double getProductShipping() {
-    return productShipping;
-  }
-  public void setProductShipping(double productShipping) {
-    this.productShipping = productShipping;
-  }
-
-  public double getProductGrandTotal() {
-    return productGrandTotal;
-  }
-  public void setProductGrandTotal(double productGrandTotal) {
-    this.productGrandTotal = productGrandTotal;
+  public void setOrderStatus(String orderStatus) {
+    this.orderStatus = orderStatus;
   }
 
   @Override
   public String toString() {
-    return "Order{" +
-      "orderNumber='" + orderNumber + '\'' +
-      ", customerName='" + customerName + '\'' +
-      ", customerEmail='" + customerEmail + '\'' +
-      ", customerPhoneNumber='" + customerPhoneNumber + '\'' +
-      ", customerAddress='" + customerAddress + '\'' +
-      ", customerCity='" + customerCity + '\'' +
-      ", customerCountry='" + customerCountry + '\'' +
-      ", productName='" + productName + '\'' +
-      ", productDescription='" + productDescription + '\'' +
-      ", productPrice=" + productPrice +
-      ", productQuantity=" + productQuantity +
-      ", productPerMeter=" + productPerMeter +
-      ", productTotal=" + productTotal +
-      ", productDiscount=" + productDiscount +
-      ", productSubtotal=" + productSubtotal +
-      ", productTax=" + productTax +
-      ", productShipping=" + productShipping +
-      ", productGrandTotal=" + productGrandTotal +
+    return "Order{\n" +
+      "orderNumber='" + orderNumber + '\n' +
+      ", customerFirstName='" + customerFirstName + '\n' +
+      ", customerLastName='" + customerLastName + '\n' +
+      ", customerEmail='" + customerEmail + '\n' +
+      ", customerPhoneNumber='" + customerPhoneNumber + '\n' +
+      ", customerAddress='" + customerLocation + '\n' +
+      ", customerCity='" + customerCity + '\n' +
+      ", customerCountry='" + customerCountry + '\n' +
+      ", productName='" + productName + '\n' +
+      ", productProfile='" + productProfile + '\n' +
+      ", productColor='" + productColor + '\n' +
+      ", productTexture='" + productTexture + '\n' +
+      ", productGauge='" + productGauge + '\n' +
+      ", productQuantity=" + productQuantity + '\n' +
+      ", productPerMeter=" + productPerMeter + '\n' +
+      ", orderDate=" + orderDate + '\n' +
+      ", orderStatus=" + orderStatus + '\n' +
       '}';
   }
 }
