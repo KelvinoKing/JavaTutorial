@@ -24,21 +24,22 @@ public class SalesController {
         profile, colors, texture, gauge, quantity, perMeter);
     }
     if (rollTops) {
-      order = new Order(firstName, lastName, email, phoneNumber, country, city, location, "Roll Tops",
+      order = new Order(firstName, lastName, email, phoneNumber, city, country, location, "Roll Tops",
       profile, colors, texture, gauge, quantity, perMeter);
     }
     if (valleys) {
-      order = new Order(firstName, lastName, email, phoneNumber, country, city, location, "Valleys",
+      order = new Order(firstName, lastName, email, phoneNumber, city, country, location, "Valleys",
       profile, colors, texture, gauge, quantity, perMeter);
     }
     if (gutters) {
-      order = new Order(firstName, lastName, email, phoneNumber, country, city, location, "Gutters",
+      order = new Order(firstName, lastName, email, phoneNumber, city, country, location, "Gutters",
       profile, colors, texture, gauge, quantity, perMeter);
     }
 
     // Print the order details
     Storage storage = new Storage();
     storage.saveObject(order);
+    System.out.println("" + order.toString() + "");
   }
 
   public void updateOrders() {

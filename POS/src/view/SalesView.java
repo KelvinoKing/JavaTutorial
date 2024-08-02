@@ -89,6 +89,7 @@ public class SalesView extends BorderPane {
     help.getItems().addAll(about, contact);
 
     setTop(menuBar);
+    pendingOrderPane();
     BorderPane.setAlignment(menuBar, Pos.TOP_CENTER);
 
     createOrder.setOnAction(e -> createOrderPane());
@@ -364,17 +365,6 @@ public class SalesView extends BorderPane {
     orderTable.setEditable(false);
     orderTable.setPlaceholder(new Label("No data to show yet"));
     
-    // Make rows to listen for double click
-    orderTable.setRowFactory(tv -> {
-      TableRow<Order> row = new TableRow<>();
-      row.setOnMouseClicked(event -> {
-        if (event.getClickCount() == 2 && (!row.isEmpty())) {
-          Order rowData = row.getItem();
-          System.out.println(rowData.toString());
-        }
-      });
-      return row;
-    });
 
     // Add columns to the table
     TableView.TableViewSelectionModel<Order> selectionModel = orderTable.getSelectionModel();
@@ -433,31 +423,25 @@ public class SalesView extends BorderPane {
 
   @SuppressWarnings("unchecked")
   public void completedOrderPane(){
-    // Use table view to display pending orders
+    // Use table view to display completed orders
     TableView<Order> orderTable = new TableView<>();
-    ObservableList<Order> orderList = FXCollections.observableArrayList(
-      new Order(
-        "Kelvin", "Doe", "knjoroge@gmail.com",
-        "0712345678", "Nairobi", "Kenya", "Kasarani", "Roof Sheets", "Box Profile", "Black", "Glosy", 30, 10, 100.0),
-      new Order("Tracy", "Doe", "janedoe@outlook.com",
-        "0712345678", "Nairobi", "Kenya", "Kasarani", "Roll Tops", "Corrugated", "Blue", "Matt", 32, 20, 150.0)
-    );
+    ObservableList<Order> orderList = FXCollections.observableArrayList();
+
+    // Load all pending orders from the storage by first checking the class name
+    Storage storage = new Storage();
+    storage.loadObjects().forEach((key, value) -> {
+      if (value.toString().contains("Order")) {
+        Order order = Order.fromString(value.toString());
+        if (order.getOrderStatus().equals("Completed")) {
+          orderList.add(order);
+        }
+      }
+    });
+
 
     orderTable.setItems(orderList);
     orderTable.setEditable(false);
     orderTable.setPlaceholder(new Label("No data to show yet"));
-
-    // Make rows to listen for double click
-    orderTable.setRowFactory(tv -> {
-      TableRow<Order> row = new TableRow<>();
-      row.setOnMouseClicked(event -> {
-        if (event.getClickCount() == 2 && (!row.isEmpty())) {
-          Order rowData = row.getItem();
-          System.out.println(rowData.toString());
-        }
-      });
-      return row;
-    });
 
     // Add columns to the table
     TableView.TableViewSelectionModel<Order> selectionModel = orderTable.getSelectionModel();
