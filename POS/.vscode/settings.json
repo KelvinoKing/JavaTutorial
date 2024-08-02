@@ -18,6 +18,8 @@
         "/home/kelvino/Downloads/javafx-sdk-21.0.4/lib/javafx.media.jar",
         "/home/kelvino/Downloads/javafx-sdk-21.0.4/lib/javafx.swing.jar",
         "/home/kelvino/Downloads/javafx-sdk-21.0.4/lib/javafx.web.jar",
-        "/home/kelvino/Downloads/javafx-sdk-21.0.4/lib/javafx-swt.jar"
+        "/home/kelvino/Downloads/javafx-sdk-21.0.4/lib/javafx-swt.jar",
+        "/home/kelvino/Downloads/Java JSON/json-simple-1.1.1.jar",
+        "/home/kelvino/Downloads/Java JSON/gson-2.3.1.jar"
     ]
 }

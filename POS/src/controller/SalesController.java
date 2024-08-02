@@ -38,7 +38,7 @@ public class SalesController {
 
     // Print the order details
     Storage storage = new Storage();
-    storage.saveOrder(order);
+    storage.saveObject(order);
   }
 
   public void updateOrders() {

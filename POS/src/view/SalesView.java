@@ -4,7 +4,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import main.App;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -24,14 +23,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 
-import java.util.Observable;
-
 import controller.SalesController;
 import model.Order;
+import utils.Storage;
 
 
 public class SalesView extends BorderPane {
@@ -351,11 +348,22 @@ public class SalesView extends BorderPane {
     // Use table view to display pending orders
     TableView<Order> orderTable = new TableView<>();
     ObservableList<Order> orderList = FXCollections.observableArrayList();
+    
+    // Load all pending orders from the storage by first checking the class name
+    Storage storage = new Storage();
+    storage.loadObjects().forEach((key, value) -> {
+      if (value.toString().contains("Order")) {
+        Order order = Order.fromString(value.toString());
+        if (order.getOrderStatus().equals("Pending")) {
+          orderList.add(order);
+        }
+      }
+    });
 
     orderTable.setItems(orderList);
     orderTable.setEditable(false);
     orderTable.setPlaceholder(new Label("No data to show yet"));
-
+    
     // Make rows to listen for double click
     orderTable.setRowFactory(tv -> {
       TableRow<Order> row = new TableRow<>();
@@ -420,7 +428,6 @@ public class SalesView extends BorderPane {
       colProductQuantity, colProductPerMeter
     );
 
-    // Add the table to the center of the border pane
     this.setCenter(orderTable);
   }
 

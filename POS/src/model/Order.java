@@ -169,24 +169,55 @@ public class Order {
 
   @Override
   public String toString() {
-    return "Order{\n" +
-      "orderNumber='" + orderNumber + '\n' +
-      ", customerFirstName='" + customerFirstName + '\n' +
-      ", customerLastName='" + customerLastName + '\n' +
-      ", customerEmail='" + customerEmail + '\n' +
-      ", customerPhoneNumber='" + customerPhoneNumber + '\n' +
-      ", customerAddress='" + customerLocation + '\n' +
-      ", customerCity='" + customerCity + '\n' +
-      ", customerCountry='" + customerCountry + '\n' +
-      ", productName='" + productName + '\n' +
-      ", productProfile='" + productProfile + '\n' +
-      ", productColor='" + productColor + '\n' +
-      ", productTexture='" + productTexture + '\n' +
-      ", productGauge='" + productGauge + '\n' +
-      ", productQuantity=" + productQuantity + '\n' +
-      ", productPerMeter=" + productPerMeter + '\n' +
-      ", orderDate=" + orderDate + '\n' +
-      ", orderStatus=" + orderStatus + '\n' +
-      '}';
+    // Return the order in a JSON format
+    // Also add class name to the JSON object
+    return "{"
+      + "\"class\": \"" + this.getClass().getSimpleName() + "\","
+      + "\"orderNumber\": \"" + this.orderNumber + "\","
+      + "\"orderDate\": \"" + this.orderDate + "\","
+      + "\"customerFirstName\": \"" + this.customerFirstName + "\","
+      + "\"customerLastName\": \"" + this.customerLastName + "\","
+      + "\"customerEmail\": \"" + this.customerEmail + "\","
+      + "\"customerPhoneNumber\": \"" + this.customerPhoneNumber + "\","
+      + "\"customerLocation\": \"" + this.customerLocation + "\","
+      + "\"customerCity\": \"" + this.customerCity + "\","
+      + "\"customerCountry\": \"" + this.customerCountry + "\","
+      + "\"productName\": \"" + this.productName + "\","
+      + "\"productProfile\": \"" + this.productProfile + "\","
+      + "\"productColor\": \"" + this.productColor + "\","
+      + "\"productTexture\": \"" + this.productTexture + "\","
+      + "\"productGauge\": \"" + this.productGauge + "\","
+      + "\"productQuantity\": \"" + this.productQuantity + "\","
+      + "\"productPerMeter\": \"" + this.productPerMeter + "\","
+      + "\"orderStatus\": \"" + this.orderStatus + "\""
+      + "}";
+  }
+
+  @SuppressWarnings("deprecation")
+  public static Order fromString(String data) {
+    // Parse the JSON data to an Order object
+    // Remove the class name from the JSON object
+    data = data.replace("{", "").replace("}", "");
+    String[] parts = data.split(",");
+    Order order = new Order(
+      parts[3].split(":")[1].replace("\"", "").trim(),
+      parts[4].split(":")[1].replace("\"", "").trim(),
+      parts[5].split(":")[1].replace("\"", "").trim(),
+      parts[6].split(":")[1].replace("\"", "").trim(),
+      parts[9].split(":")[1].replace("\"", "").trim(),
+      parts[8].split(":")[1].replace("\"", "").trim(),
+      parts[7].split(":")[1].replace("\"", "").trim(),
+      parts[10].split(":")[1].replace("\"", "").trim(),
+      parts[11].split(":")[1].replace("\"", "").trim(),
+      parts[12].split(":")[1].replace("\"", "").trim(),
+      parts[13].split(":")[1].replace("\"", "").trim(),
+      Integer.parseInt(parts[14].split(":")[1].replace("\"", "").trim()),
+      Integer.parseInt(parts[15].split(":")[1].replace("\"", "").trim()),
+      Double.parseDouble(parts[16].split(":")[1].replace("\"", ""))
+    );
+    order.setOrderNumber(parts[1].split(":")[1].replace("\"", "").trim());
+    order.setOrderDate(new Date(parts[2].split(":")[1].replace("\"", "")));
+    order.setOrderStatus(parts[17].split(":")[1].replace("\"", "").trim());
+    return order;
   }
 }

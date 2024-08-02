@@ -1,79 +1,107 @@
 package utils;
 
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.sql.Date;
+import java.util.HashMap;
 
 import model.Order;
 
 public class Storage {
+    private static final String FILE_PATH = "src/data/objects.json";
 
-    private Order order;
+    @SuppressWarnings("unchecked")
+    public void saveObject(Object object) {
+        // Save all objects to a JSON file
+        JSONObject jsonObject = new JSONObject();
+        String objectType = object.getClass().getSimpleName();
+        switch (objectType) {
+            case "Order":
+                Order order = (Order) object;
+                String objectKey = "order." + order.getOrderNumber();
+                jsonObject.put(objectKey, order.toString());
+                break;
+            default:
+                break;
+        }
 
-    // Save the order to a csv file
-    public void saveOrder(Order order) {
-        // Create a new file
-
-        File file = new File("order.csv");
-
-        FileWriter fileWriter = null;
-        // Append the order details to the file
         try {
-            fileWriter = new FileWriter(file, true);
-            fileWriter.write(
-                order.getOrderNumber() + "," + order.getCustomerFirstName() + "," + order.getCustomerLastName() + "," +
-                order.getCustomerEmail() + "," + order.getCustomerPhoneNumber() + "," + order.getCustomerLocation() + "," +
-                order.getCustomerCity() + "," + order.getCustomerCountry() + "," + order.getProductName() + "," +
-                order.getProductProfile() + "," + order.getProductColor() + "," + order.getProductTexture() + "," +
-                order.getProductGauge() + "," + order.getProductQuantity() + "," + order.getProductPerMeter() + "," +
-                order.getOrderDate() + "," + order.getOrderStatus() + "\n");
+            File file = new File(FILE_PATH);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            // reload the file to append the new object
+            JSONObject jsonObjectReloaded = (JSONObject) reloadObjects();
+            jsonObjectReloaded.putAll(jsonObject);
+            // Write the file
+            FileWriter fileWriter = new FileWriter(FILE_PATH);
+            fileWriter.write(jsonObjectReloaded.toJSONString());
+            fileWriter.flush();
+            fileWriter.close();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                fileWriter.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
-    // Load the order from a csv file
-    public Order loadOrder() {
-        // Load the order details from the file
-        File file = new File("order.csv");
-        BufferedReader bufferedReader = null;
-        this.order = null;
+    /**
+     * Load all objects from the JSON file
+     * return a dictionary of objects
+     * @return
+     */
+    public HashMap<String, Object> loadObjects() {
+        HashMap<String, Object> objectsMap = new HashMap<>();
+        JSONParser jsonParser = new JSONParser();
 
-        try {
-            bufferedReader = new BufferedReader(new FileReader(file));
-            String line = "";
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] data = line.split(",");
-                order = new Order(
-                    data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8],
-                    data[9], data[10], data[11], Integer.parseInt(data[12]), Integer.parseInt(data[13]),
-                    Double.parseDouble(data[14]));
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
+            for (Object key : jsonObject.keySet()) {
+                String objectKey = (String) key;
+                String objectData = (String) jsonObject.get(objectKey);
 
-                //  Convert the order date to a Date object
-                Date date = Date.valueOf(data[15]);
-                order.setOrderDate(date);
-                order.setOrderNumber(data[0]);
-                order.setOrderStatus(data[16]);
+                // Parse the object data based on its type
+                if (objectKey.startsWith("order.")) {
+                    Order order = parseOrder(objectData);
+                    objectsMap.put(objectKey, order);
+                }
+                // Add more types here if needed
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                bufferedReader.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
-        return order;
+        return objectsMap;
+    }
+
+    /**
+     * Parses the JSON string back to an Order object.
+     *
+     * @param data The JSON string representing the Order object.
+     * @return The Order object.
+     */
+    private Order parseOrder(String data) {
+        // Implement the parsing logic to convert data back to Order object
+        // Assuming the Order class has a fromString method to handle this
+        return Order.fromString(data);
+    }
+
+    /**
+     * Reload the JSON data from the file 
+     * return the data 
+     */
+    public JSONObject reloadObjects() {
+        JSONObject jsonObject = new JSONObject();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            JSONParser jsonParser = new JSONParser();
+            jsonObject = (JSONObject) jsonParser.parse(reader);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }
