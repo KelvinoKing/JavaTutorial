@@ -18,7 +18,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -327,7 +326,7 @@ public class SalesView extends BorderPane {
 
       salesController.createOrder(
         txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), txtPhoneNumber.getText(),
-        txtCountry.getText(), txtCity.getText(), txtLocation.getText(),
+        txtCity.getText(), txtCountry.getText(), txtLocation.getText(),
         cbRoofsheets.isSelected(), cbRollTops.isSelected(), cbValleys.isSelected(), cbGutters.isSelected(),
         profile, color, texture, gauge, quantity, perMeter
       );

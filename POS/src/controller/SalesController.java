@@ -14,13 +14,13 @@ public class SalesController {
 
   public void createOrder(
     String firstName, String lastName, String email, String phoneNumber,
-    String country, String city, String location, Boolean roofsheets, Boolean rollTops,
+    String city, String country, String location, Boolean roofsheets, Boolean rollTops,
     Boolean valleys, Boolean gutters, String profile, String colors, String texture,
     int gauge, int quantity, double perMeter) {
 
     if (roofsheets) {
       order = new Order(
-        firstName, lastName, email, phoneNumber, country, city, location, "Roof Sheets",
+        firstName, lastName, email, phoneNumber, city, country, location, "Roof Sheets",
         profile, colors, texture, gauge, quantity, perMeter);
     }
     if (rollTops) {
@@ -36,13 +36,10 @@ public class SalesController {
       profile, colors, texture, gauge, quantity, perMeter);
     }
 
-    // Print the order details
     Storage storage = new Storage();
     storage.saveObject(order);
-    System.out.println("" + order.toString() + "");
   }
 
   public void updateOrders() {
-    System.out.println(order.toString());
   }
 }

@@ -2,7 +2,6 @@ package utils;
 
 
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 
 import java.io.BufferedReader;
@@ -58,18 +57,27 @@ public class Storage {
         HashMap<String, Object> objectsMap = new HashMap<>();
         JSONParser jsonParser = new JSONParser();
 
+        // Check if the file exists
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            return objectsMap;
+        }
+
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
             for (Object key : jsonObject.keySet()) {
                 String objectKey = (String) key;
                 String objectData = (String) jsonObject.get(objectKey);
-
-                // Parse the object data based on its type
-                if (objectKey.startsWith("order.")) {
-                    Order order = parseOrder(objectData);
-                    objectsMap.put(objectKey, order);
+                String[] objectKeyParts = objectKey.split("\\.");
+                String objectType = objectKeyParts[0];
+                switch (objectType) {
+                    case "order":
+                        Order order = parseOrder(objectData);
+                        objectsMap.put(objectKey, order);
+                        break;
+                    default:
+                        break;
                 }
-                // Add more types here if needed
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,6 +104,21 @@ public class Storage {
      */
     public JSONObject reloadObjects() {
         JSONObject jsonObject = new JSONObject();
+
+        // Check if the file exists
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            return jsonObject;
+        }
+        if (file.length() == 0) {
+            try (FileWriter fileWriter = new FileWriter(FILE_PATH)) {
+                fileWriter.write("{}");
+                fileWriter.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             JSONParser jsonParser = new JSONParser();
             jsonObject = (JSONObject) jsonParser.parse(reader);

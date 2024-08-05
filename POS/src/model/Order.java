@@ -45,6 +45,9 @@ public class Order {
     this.productQuantity = productQuantity;
     this.productPerMeter = productPerMeter;
     this.orderStatus = "Pending";
+
+    // Print the order details
+    // System.out.println(this.toString());
   }
 
   public String getOrderNumber() {
@@ -204,8 +207,8 @@ public class Order {
       parts[4].split(":")[1].replace("\"", "").trim(),
       parts[5].split(":")[1].replace("\"", "").trim(),
       parts[6].split(":")[1].replace("\"", "").trim(),
-      parts[9].split(":")[1].replace("\"", "").trim(),
       parts[8].split(":")[1].replace("\"", "").trim(),
+      parts[9].split(":")[1].replace("\"", "").trim(),
       parts[7].split(":")[1].replace("\"", "").trim(),
       parts[10].split(":")[1].replace("\"", "").trim(),
       parts[11].split(":")[1].replace("\"", "").trim(),
