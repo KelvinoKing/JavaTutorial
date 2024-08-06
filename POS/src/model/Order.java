@@ -4,7 +4,7 @@ import java.util.Date;
 
 
 public class Order {
-  private String orderNumber;
+  private String id;
   private String customerFirstName;
   private String customerLastName;
   private String customerEmail;
@@ -28,7 +28,7 @@ public class Order {
     String productProfile, String productColor, String productTexture, int productGauge,
     int productQuantity, double productPerMeter
     ) {
-    this.orderNumber = java.util.UUID.randomUUID().toString();
+    this.id = java.util.UUID.randomUUID().toString();
     this.orderDate = new Date();
     this.customerFirstName = customerFirstName;
     this.customerLastName = customerLastName;
@@ -50,11 +50,11 @@ public class Order {
     // System.out.println(this.toString());
   }
 
-  public String getOrderNumber() {
-    return orderNumber;
+  public String getId() {
+    return id;
   }
-  public void setOrderNumber(String orderNumber) {
-    this.orderNumber = orderNumber;
+  public void setId(String orderNumber) {
+    this.id = orderNumber;
   }
 
   public String getCustomerFirstName() {
@@ -176,7 +176,7 @@ public class Order {
     // Also add class name to the JSON object
     return "{"
       + "\"class\": \"" + this.getClass().getSimpleName() + "\","
-      + "\"orderNumber\": \"" + this.orderNumber + "\","
+      + "\"orderNumber\": \"" + this.id + "\","
       + "\"orderDate\": \"" + this.orderDate + "\","
       + "\"customerFirstName\": \"" + this.customerFirstName + "\","
       + "\"customerLastName\": \"" + this.customerLastName + "\","
@@ -218,7 +218,7 @@ public class Order {
       Integer.parseInt(parts[15].split(":")[1].replace("\"", "").trim()),
       Double.parseDouble(parts[16].split(":")[1].replace("\"", ""))
     );
-    order.setOrderNumber(parts[1].split(":")[1].replace("\"", "").trim());
+    order.setId(parts[1].split(":")[1].replace("\"", "").trim());
     order.setOrderDate(new Date(parts[2].split(":")[1].replace("\"", "")));
     order.setOrderStatus(parts[17].split(":")[1].replace("\"", "").trim());
     return order;

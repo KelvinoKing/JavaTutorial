@@ -14,6 +14,7 @@ import model.Order;
 
 public class Storage {
     private static final String FILE_PATH = "src/data/objects.json";
+    private String[] objectTypes = {"order"};
 
     @SuppressWarnings("unchecked")
     public void saveObject(Object object) {
@@ -23,7 +24,7 @@ public class Storage {
         switch (objectType) {
             case "Order":
                 Order order = (Order) object;
-                String objectKey = "order." + order.getOrderNumber();
+                String objectKey = "order." + order.getId();
                 jsonObject.put(objectKey, order.toString());
                 break;
             default:
@@ -126,5 +127,51 @@ public class Storage {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    /**
+     * Update the object in the JSON file
+     * 
+     * @param object
+     *
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public void updateObject(Object object) {
+        String passedObjectType = object.getClass().getSimpleName();
+        String objectKey = "";
+        JSONObject jsonObject = new JSONObject();
+
+            for (String objectType : objectTypes) {
+                if (objectType.equals(passedObjectType)) {
+                    switch (objectType) {
+                        case "order":
+                            Order order = (Order) object;
+                            objectKey = "order." + order.getId();
+                            jsonObject.put(objectKey, order.toString());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+        try {
+            File file = new File(FILE_PATH);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            // reload the file to append the new object
+            JSONObject jsonObjectReloaded = (JSONObject) reloadObjects();
+            jsonObjectReloaded.putAll(jsonObject);
+            // Write the file
+            FileWriter fileWriter = new FileWriter(FILE_PATH);
+            fileWriter.write(jsonObjectReloaded.toJSONString());
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+            
     }
 }

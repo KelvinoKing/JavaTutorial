@@ -39,7 +39,6 @@ public class SalesView extends BorderPane {
   private final MenuItem completedOrder = new MenuItem("Completed Orders");
 
   private final Menu customers = new Menu("Customers");
-  private final MenuItem addCustomer = new MenuItem("Add Customer");
   private final MenuItem viewCustomers = new MenuItem("View Customers");
   private final MenuItem customerReport = new MenuItem("Customer Report");
 
@@ -79,7 +78,7 @@ public class SalesView extends BorderPane {
     );
 
     orders.getItems().addAll(createOrder, pendingOrder, completedOrder);
-    customers.getItems().addAll(addCustomer, viewCustomers, customerReport);
+    customers.getItems().addAll(viewCustomers, customerReport);
     inventory.getItems().addAll(viewProducts);
     payments.getItems().addAll(viewPayments, paymentReport);
     records.getItems().addAll(orderRecords, customerRecords, productRecords, paymentRecords);
@@ -94,6 +93,7 @@ public class SalesView extends BorderPane {
     createOrder.setOnAction(e -> createOrderPane());
     pendingOrder.setOnAction(e -> pendingOrderPane());
     completedOrder.setOnAction(e -> completedOrderPane());
+    viewCustomers.setOnAction(e -> viewCustomersPane());
   }
 
   public void createOrderPane(){
@@ -360,6 +360,14 @@ public class SalesView extends BorderPane {
       }
     });
 
+    // Listen to click events on the table
+    orderTable.setOnMouseClicked(e -> {
+      Order order = orderTable.getSelectionModel().getSelectedItem();
+      if (e.getClickCount() == 2 && order != null) {
+        viewOrders(order);
+      }
+    });
+
     orderTable.setItems(orderList);
     orderTable.setEditable(false);
     orderTable.setPlaceholder(new Label("No data to show yet"));
@@ -380,15 +388,6 @@ public class SalesView extends BorderPane {
 
     TableColumn<Order, String> colPhoneNumber = new TableColumn<>("Phone Number");
     colPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("customerPhoneNumber"));
-
-    TableColumn<Order, String> colCountry = new TableColumn<>("Country");
-    colCountry.setCellValueFactory(new PropertyValueFactory<>("customerCountry"));
-
-    TableColumn<Order, String> colCity = new TableColumn<>("City");
-    colCity.setCellValueFactory(new PropertyValueFactory<>("customerCity"));
-
-    TableColumn<Order, String> colLocation = new TableColumn<>("Location");
-    colLocation.setCellValueFactory(new PropertyValueFactory<>("customerLocation"));
 
     TableColumn<Order, String> colProductName = new TableColumn<>("Product Name");
     colProductName.setCellValueFactory(new PropertyValueFactory<>("productName"));
@@ -411,10 +410,12 @@ public class SalesView extends BorderPane {
     TableColumn<Order, Double> colProductPerMeter = new TableColumn<>("Product Per Meter");
     colProductPerMeter.setCellValueFactory(new PropertyValueFactory<>("productPerMeter"));
 
+    TableColumn<Order, String> colOrderStatus = new TableColumn<>("Order Status");
+    colOrderStatus.setCellValueFactory(new PropertyValueFactory<>("orderStatus"));
+
     orderTable.getColumns().addAll(
-      colFirstName, colLastName, colEmail, colPhoneNumber, colCountry, colCity, colLocation,
-      colProductName, colProductProfile, colProductColor, colProductTexture, colProductGauge,
-      colProductQuantity, colProductPerMeter
+      colFirstName, colLastName, colEmail, colPhoneNumber, colProductName, colProductProfile,
+      colProductColor, colProductTexture, colProductGauge, colProductQuantity, colProductPerMeter, colOrderStatus
     );
 
     this.setCenter(orderTable);
@@ -431,7 +432,7 @@ public class SalesView extends BorderPane {
     storage.loadObjects().forEach((key, value) -> {
       if (value.toString().contains("Order")) {
         Order order = Order.fromString(value.toString());
-        if (order.getOrderStatus().equals("Completed")) {
+        if (order.getOrderStatus().equals("Warehouse") || order.getOrderStatus().equals("Dispatched")) {
           orderList.add(order);
         }
       }
@@ -458,15 +459,6 @@ public class SalesView extends BorderPane {
     TableColumn<Order, String> colPhoneNumber = new TableColumn<>("Phone Number");
     colPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("customerPhoneNumber"));
 
-    TableColumn<Order, String> colCountry = new TableColumn<>("Country");
-    colCountry.setCellValueFactory(new PropertyValueFactory<>("customerCountry"));
-
-    TableColumn<Order, String> colCity = new TableColumn<>("City");
-    colCity.setCellValueFactory(new PropertyValueFactory<>("customerCity"));
-
-    TableColumn<Order, String> colLocation = new TableColumn<>("Location");
-    colLocation.setCellValueFactory(new PropertyValueFactory<>("customerLocation"));
-
     TableColumn<Order, String> colProductName = new TableColumn<>("Product Name");
     colProductName.setCellValueFactory(new PropertyValueFactory<>("productName"));
 
@@ -488,10 +480,177 @@ public class SalesView extends BorderPane {
     TableColumn<Order, Double> colProductPerMeter = new TableColumn<>("Product Per Meter");
     colProductPerMeter.setCellValueFactory(new PropertyValueFactory<>("productPerMeter"));
 
+    TableColumn<Order, String> colOrderStatus = new TableColumn<>("Order Status");
+    colOrderStatus.setCellValueFactory(new PropertyValueFactory<>("orderStatus"));
+
     orderTable.getColumns().addAll(
-      colFirstName, colLastName, colEmail, colPhoneNumber, colCountry, colCity, colLocation,
-      colProductName, colProductProfile, colProductColor, colProductTexture, colProductGauge,
-      colProductQuantity, colProductPerMeter
+      colFirstName, colLastName, colEmail, colPhoneNumber, colProductName, colProductProfile, colProductColor,
+      colProductTexture, colProductGauge, colProductQuantity, colProductPerMeter
+    );
+
+    this.setCenter(orderTable);
+  }
+
+  public void viewOrders(Order order){
+    GridPane  gridPane = new GridPane();
+    HBox hBox = new HBox();
+    Button btnEdit = new Button("Edit Order");
+    btnEdit.setStyle("-fx-background-color: green; -fx-text-fill: white;");
+    Button btnCancel = new Button("Cancel");
+    btnCancel.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+
+    hBox.getChildren().addAll(btnEdit, btnCancel);
+    hBox.setAlignment(Pos.BOTTOM_RIGHT);
+    hBox.setSpacing(10);
+
+    gridPane.setAlignment(Pos.CENTER);
+    gridPane.setHgap(5);
+    gridPane.setVgap(5);
+
+    Label lbFirstName = new Label("First Name");
+    Label lbLastName = new Label("Last Name");
+    Label lbEmail = new Label("Email");
+    Label lbPhoneNumber = new Label("Phone Number");
+    Label lbCountry = new Label("Country");
+    Label lbCity = new Label("City");
+    Label lbLocation = new Label("Location");
+    Label lbProductName = new Label("Product");
+    Label lbProfile = new Label("Profile");
+    Label lbColor = new Label("Color");
+    Label lbTexture = new Label("Texture");
+    Label lbGauge = new Label("Gauge");
+    Label lbQuantity = new Label("Quantity");
+    Label lbPerMeter = new Label("Per Meter");
+
+    // Add all labels in an array and give them a color
+    Label[] labels = {
+      lbFirstName, lbLastName, lbEmail, lbPhoneNumber, lbCountry, lbCity, lbLocation,
+      lbProductName, lbProfile, lbColor, lbTexture, lbGauge, lbQuantity, lbPerMeter
+    };
+
+    for (Label label : labels) {
+      label.setStyle("-fx-text-fill: red;");
+    }
+
+    TextField  txtFirstName = new TextField(order.getCustomerFirstName());
+    TextField  txtLastName = new TextField(order.getCustomerLastName());
+    TextField  txtEmail = new TextField(order.getCustomerEmail());
+    TextField  txtPhoneNumber = new TextField(order.getCustomerPhoneNumber());
+    TextField  txtCountry = new TextField(order.getCustomerCountry());
+    TextField  txtCity = new TextField(order.getCustomerCity());
+    TextField  txtLocation = new TextField(order.getCustomerLocation());
+    TextField tfProductName = new TextField(order.getProductName());
+    TextField tfProfile = new TextField(order.getProductProfile());
+    TextField tfColor = new TextField(order.getProductColor());
+    TextField tfTexture = new TextField(order.getProductTexture());
+    TextField tfGauge = new TextField(String.valueOf(order.getProductGauge()));
+    TextField tfQuantity = new TextField(String.valueOf(order.getProductQuantity()));
+    TextField tfPerMeter = new TextField(String.valueOf(order.getProductPerMeter()));
+
+    gridPane.add(lbFirstName, 0, 0);
+    gridPane.add(txtFirstName, 1, 0);
+    gridPane.add(lbLastName, 2, 0);
+    gridPane.add(txtLastName, 3, 0);
+    gridPane.add(lbEmail, 0, 1);
+    gridPane.add(txtEmail, 1, 1);
+    gridPane.add(lbPhoneNumber, 2, 1);
+    gridPane.add(txtPhoneNumber, 3, 1);
+    gridPane.add(lbCountry, 0, 2);
+    gridPane.add(txtCountry, 1, 2);
+    gridPane.add(lbCity, 2, 2);
+    gridPane.add(txtCity, 3, 2);
+    gridPane.add(lbLocation, 0, 3);
+    gridPane.add(txtLocation, 1, 3);
+    gridPane.add(lbProductName, 2, 3);
+    gridPane.add(tfProductName, 3, 3);
+    gridPane.add(lbProfile, 0, 4);
+    gridPane.add(tfProfile, 1, 4);
+    gridPane.add(lbGauge, 2, 4);
+    gridPane.add(tfGauge, 3, 4);
+    gridPane.add(lbQuantity, 0, 5);
+    gridPane.add(tfQuantity, 1, 5);
+    gridPane.add(lbPerMeter, 2, 5);
+    gridPane.add(tfPerMeter, 3, 5);
+    gridPane.add(hBox, 0, 6, 5, 5);
+
+    Stage popupStage = new Stage();
+    Scene popupScene = new Scene(gridPane, 800, 400);
+    popupStage.setTitle("Edit Order");
+    popupStage.setScene(popupScene);
+    popupStage.show();
+
+    btnCancel.setOnAction(e -> popupStage.close());
+    btnEdit.setOnAction(e -> {
+      SalesController salesController = new SalesController();
+
+      // Check all data before creating an order
+      if(txtFirstName.getText().isEmpty() || txtLastName.getText().isEmpty() || txtEmail.getText().isEmpty() ||
+      txtPhoneNumber.getText().isEmpty() || txtCountry.getText().isEmpty() || txtCity.getText().isEmpty() ||
+      txtLocation.getText().isEmpty() || tfGauge.getText().isEmpty() || tfQuantity.getText().isEmpty() ||
+      tfPerMeter.getText().isEmpty() || tfProductName.getText().isEmpty() || tfProfile.getText().isEmpty()) {
+        showAlert("All fields are required");
+        return;
+      }
+
+      salesController.editOrder(order, txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), txtPhoneNumber.getText(),
+        txtCity.getText(), txtCountry.getText(), txtLocation.getText(), tfProductName.getText(), tfProfile.getText(),
+        tfColor.getText(), tfTexture.getText(), Integer.parseInt(tfGauge.getText()),
+        Integer.parseInt(tfQuantity.getText()), Double.parseDouble(tfPerMeter.getText())
+      );
+
+      popupStage.close();
+    });
+  }
+
+  @SuppressWarnings("unchecked")
+  public void viewCustomersPane(){
+    // Use table view to display customers
+    TableView<Order> orderTable = new TableView<>();
+    ObservableList<Order> orderList = FXCollections.observableArrayList();
+
+    // Load all pending orders from the storage by first checking the class name
+    Storage storage = new Storage();
+    storage.loadObjects().forEach((key, value) -> {
+      if (value.toString().contains("Order")) {
+        Order order = Order.fromString(value.toString());
+        orderList.add(order);
+      }
+    });
+
+    orderTable.setItems(orderList);
+    orderTable.setEditable(false);
+    orderTable.setPlaceholder(new Label("No data to show yet"));
+
+    // Add columns to the table
+    TableView.TableViewSelectionModel<Order> selectionModel = orderTable.getSelectionModel();
+    selectionModel.setSelectionMode(SelectionMode.MULTIPLE);
+
+    TableColumn<Order, String> colFirstName = new TableColumn<>("First Name");
+    colFirstName.setCellValueFactory(new PropertyValueFactory<>("customerFirstName"));
+
+    TableColumn<Order, String> colLastName = new TableColumn<>("Last Name");
+    colLastName.setCellValueFactory(new PropertyValueFactory<>("customerLastName"));
+
+    TableColumn<Order, String> colEmail = new TableColumn<>("Email");
+    colEmail.setCellValueFactory(new PropertyValueFactory<>("customerEmail"));
+
+    TableColumn<Order, String> colPhoneNumber = new TableColumn<>("Phone Number");
+    colPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("customerPhoneNumber"));
+
+    TableColumn<Order, String> colCountry = new TableColumn<>("Country");
+    colCountry.setCellValueFactory(new PropertyValueFactory<>("customerCountry"));
+
+    TableColumn<Order, String> colCity = new TableColumn<>("City");
+    colCity.setCellValueFactory(new PropertyValueFactory<>("customerCity"));
+
+    TableColumn<Order, String> colLocation = new TableColumn<>("Location");
+    colLocation.setCellValueFactory(new PropertyValueFactory<>("customerLocation"));
+
+    TableColumn<Order, String> colOrderId = new TableColumn<>("Order Number");
+    colOrderId.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+    orderTable.getColumns().addAll(
+      colFirstName, colLastName, colEmail, colPhoneNumber, colCountry, colCity, colLocation, colOrderId
     );
 
     this.setCenter(orderTable);

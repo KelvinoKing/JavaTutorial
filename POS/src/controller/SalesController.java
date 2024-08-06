@@ -3,6 +3,7 @@ package controller;
 import main.App;
 import model.Order;
 import utils.Storage;
+import view.SalesView;
 
 
 public class SalesController {
@@ -38,8 +39,36 @@ public class SalesController {
 
     Storage storage = new Storage();
     storage.saveObject(order);
+
+    // Reload the sales view pending orders
+    SalesView salesView = new SalesView();
+    salesView.pendingOrderPane();
   }
 
-  public void updateOrders() {
+  public void editOrder(Order order, String firstName, String lastName, String email, String phoneNumber,
+    String city, String country, String location, String product, String profile, String colors, String texture,
+    int gauge, int quantity, double perMeter) {
+
+    order.setCustomerFirstName(firstName);
+    order.setCustomerLastName(lastName);
+    order.setCustomerEmail(email);
+    order.setCustomerPhoneNumber(phoneNumber);
+    order.setCustomerCity(city);
+    order.setCustomerCountry(country);
+    order.setCustomerLocation(location);
+    order.setProductName(product);
+    order.setProductProfile(profile);
+    order.setProductColor(colors);
+    order.setProductTexture(texture);
+    order.setProductGauge(gauge);
+    order.setProductQuantity(quantity);
+    order.setProductPerMeter(perMeter);
+
+    Storage storage = new Storage();
+    storage.saveObject(order);
+
+    // Reload the sales view pending orders
+    SalesView salesView = new SalesView();
+    salesView.pendingOrderPane();
   }
 }

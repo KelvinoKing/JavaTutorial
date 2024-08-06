@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Date;
 
 public class Customer {
   private String firstName;
@@ -10,12 +9,7 @@ public class Customer {
   private String address;
   private String city;
   private String country;
-  private String quotationNumber;
   private String orderNumber;
-  private String paymentMethod;
-  private Date orderDate;
-  private Date deliveryDate;
-  private Date paymentDate;
 
   public Customer(
     String firstName, String lastName, String email,
@@ -28,7 +22,6 @@ public class Customer {
     this.address = address;
     this.city = city;
     this.country = country;
-    this.quotationNumber = quotationNumber;
   }
 
   public String getFirstName() {
@@ -80,35 +73,8 @@ public class Customer {
     this.country = country;
   }
 
-  public String getQuotationNumber() {
-    return quotationNumber;
-  }
-  public void setQuotationNumber(String quotationNumber) {
-    this.quotationNumber = quotationNumber;
-  }
-
   public String getOrderNumber() {
     return orderNumber;
-  }
-  public Date getOrderDate() {
-    return orderDate;
-  }
-  public Date getDeliveryDate() {
-    return deliveryDate;
-  }
-  public Date getPaymentDate() {
-    return paymentDate;
-  }
-  public String getPaymentMethod() {
-    return paymentMethod;
-  }
-  public void setOrderNumber(
-    String orderNumber, Date orderDate, Date deliveryDate, Date paymentDate, String paymentMethod) {
-    this.orderNumber = orderNumber;
-    this.orderDate = orderDate;
-    this.deliveryDate = deliveryDate;
-    this.paymentDate = paymentDate;
-    this.paymentMethod = paymentMethod;
   }
 
   @Override
@@ -121,12 +87,7 @@ public class Customer {
       ", address='" + address + '\'' +
       ", city='" + city + '\'' +
       ", country='" + country + '\'' +
-      ", quotationNumber='" + quotationNumber + '\'' +
-      ", orderNumber='" + orderNumber + '\'' +
-      ", paymentMethod='" + paymentMethod + '\'' +
-      ", orderDate=" + orderDate +
-      ", deliveryDate=" + deliveryDate +
-      ", paymentDate=" + paymentDate +
+      ", orderNumber='" + orderNumber +
       '}';
   }
 }
