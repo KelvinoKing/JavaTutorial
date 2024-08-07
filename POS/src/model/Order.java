@@ -3,7 +3,7 @@ package model;
 import java.util.Date;
 
 
-public class Order {
+public class Order extends BaseModel {
   private String id;
   private String customerFirstName;
   private String customerLastName;
@@ -28,8 +28,9 @@ public class Order {
     String productProfile, String productColor, String productTexture, int productGauge,
     int productQuantity, double productPerMeter
     ) {
-    this.id = java.util.UUID.randomUUID().toString();
-    this.orderDate = new Date();
+    super();
+    this.id = super.getId();
+    this.orderDate = super.getCreatedAt();
     this.customerFirstName = customerFirstName;
     this.customerLastName = customerLastName;
     this.customerEmail = customerEmail;
@@ -44,17 +45,7 @@ public class Order {
     this.productGauge = productGauge;
     this.productQuantity = productQuantity;
     this.productPerMeter = productPerMeter;
-    this.orderStatus = "Pending";
-
-    // Print the order details
-    // System.out.println(this.toString());
-  }
-
-  public String getId() {
-    return id;
-  }
-  public void setId(String orderNumber) {
-    this.id = orderNumber;
+    this.orderStatus = "Pending";  
   }
 
   public String getCustomerFirstName() {

@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.util.HashMap;
 
 import model.Order;
+import model.Products;
 
 public class Storage {
     private static final String FILE_PATH = "src/data/objects.json";
@@ -27,6 +28,11 @@ public class Storage {
                 String objectKey = "order." + order.getId();
                 jsonObject.put(objectKey, order.toString());
                 break;
+            case "Products":
+                Products products = (Products) object;
+                objectKey = "products." + products.getId();
+                jsonObject.put(objectKey, products.toString());
+                break;
             default:
                 break;
         }
@@ -39,7 +45,7 @@ public class Storage {
             // reload the file to append the new object
             JSONObject jsonObjectReloaded = (JSONObject) reloadObjects();
             jsonObjectReloaded.putAll(jsonObject);
-            // Write the file
+            System.out.println(jsonObjectReloaded);
             FileWriter fileWriter = new FileWriter(FILE_PATH);
             fileWriter.write(jsonObjectReloaded.toJSONString());
             fileWriter.flush();
@@ -76,6 +82,10 @@ public class Storage {
                         Order order = parseOrder(objectData);
                         objectsMap.put(objectKey, order);
                         break;
+                    case "products":
+                        Products products = parseProducts(objectData);
+                        objectsMap.put(objectKey, products);
+                        break;
                     default:
                         break;
                 }
@@ -97,6 +107,18 @@ public class Storage {
         // Implement the parsing logic to convert data back to Order object
         // Assuming the Order class has a fromString method to handle this
         return Order.fromString(data);
+    }
+
+    /**
+     * Parses the JSON string back to a Products object.
+     *
+     * @param data The JSON string representing the Products object.
+     * @return The Products object.
+     */
+    private Products parseProducts(String data) {
+        // Implement the parsing logic to convert data back to Products object
+        // Assuming the Products class has a fromString method to handle this
+        return Products.fromString(data);
     }
 
     /**
@@ -149,6 +171,11 @@ public class Storage {
                             Order order = (Order) object;
                             objectKey = "order." + order.getId();
                             jsonObject.put(objectKey, order.toString());
+                            break;
+                        case "products":
+                            Products products = (Products) object;
+                            objectKey = "products." + products.getId();
+                            jsonObject.put(objectKey, products.toString());
                             break;
                         default:
                             break;
