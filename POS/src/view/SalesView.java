@@ -27,6 +27,7 @@ import javafx.geometry.Pos;
 
 import controller.SalesController;
 import model.Order;
+import model.Products;
 import utils.Storage;
 
 
@@ -94,6 +95,7 @@ public class SalesView extends BorderPane {
     pendingOrder.setOnAction(e -> pendingOrderPane());
     completedOrder.setOnAction(e -> completedOrderPane());
     viewCustomers.setOnAction(e -> viewCustomersPane());
+    viewProducts.setOnAction(e -> viewProductsPane());
   }
 
   public void createOrderPane(){
@@ -654,5 +656,54 @@ public class SalesView extends BorderPane {
     );
 
     this.setCenter(orderTable);
+  }
+
+  @SuppressWarnings("unchecked")
+  public void viewProductsPane() {
+    TableView<Products> productTable = new TableView<>();
+    ObservableList<Products> products = FXCollections.observableArrayList();
+
+    Storage storage = new Storage();
+    storage.loadObjects().forEach((key, value) -> {
+      String[] keyParts = key.split("\\.");
+      if (keyParts[0].equals("products")) {
+        Products newProduct = Products.fromString(value.toString());
+        products.add(newProduct);       
+      }
+    });
+
+    productTable.setItems(products);
+    productTable.setEditable(false);
+    productTable.setPlaceholder(new Label("No products available"));
+
+    TableView.TableViewSelectionModel<Products> selectionModel = productTable.getSelectionModel();
+    selectionModel.setSelectionMode(SelectionMode.MULTIPLE);
+
+    TableColumn<Products, String> coilNumberColumn = new TableColumn<>("Coil Number");
+    coilNumberColumn.setCellValueFactory(new PropertyValueFactory<>("coilNumber"));
+
+    TableColumn<Products, Double> metersColumn = new TableColumn<>("Meters");
+    metersColumn.setCellValueFactory(new PropertyValueFactory<>("meters"));
+
+    TableColumn<Products, Double> weightColumn = new TableColumn<>("Weight (kg)");
+    weightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
+
+    TableColumn<Products, Integer> gaugeColumn = new TableColumn<>("Gauge");
+    gaugeColumn.setCellValueFactory(new PropertyValueFactory<>("gauge"));
+
+    TableColumn<Products, Double> widthColumn = new TableColumn<>("Width (meter)");
+    widthColumn.setCellValueFactory(new PropertyValueFactory<>("width"));
+
+    TableColumn<Products, String> colorColumn = new TableColumn<>("Color");
+    colorColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
+
+    TableColumn<Products, String> textureColumn = new TableColumn<>("Texture");
+    textureColumn.setCellValueFactory(new PropertyValueFactory<>("texture"));
+
+    productTable.getColumns().addAll(
+      coilNumberColumn, metersColumn, weightColumn, gaugeColumn, widthColumn, colorColumn, textureColumn
+    );
+
+    this.setCenter(productTable);
   }
 }

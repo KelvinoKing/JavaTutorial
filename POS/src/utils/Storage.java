@@ -25,12 +25,12 @@ public class Storage {
         switch (objectType) {
             case "Order":
                 Order order = (Order) object;
-                String objectKey = "order." + order.getId();
+                String objectKey = "Order." + order.getId();
                 jsonObject.put(objectKey, order.toString());
                 break;
             case "Products":
                 Products products = (Products) object;
-                objectKey = "products." + products.getId();
+                objectKey = "Products." + products.getId();
                 jsonObject.put(objectKey, products.toString());
                 break;
             default:
@@ -45,7 +45,6 @@ public class Storage {
             // reload the file to append the new object
             JSONObject jsonObjectReloaded = (JSONObject) reloadObjects();
             jsonObjectReloaded.putAll(jsonObject);
-            System.out.println(jsonObjectReloaded);
             FileWriter fileWriter = new FileWriter(FILE_PATH);
             fileWriter.write(jsonObjectReloaded.toJSONString());
             fileWriter.flush();
@@ -78,11 +77,11 @@ public class Storage {
                 String[] objectKeyParts = objectKey.split("\\.");
                 String objectType = objectKeyParts[0];
                 switch (objectType) {
-                    case "order":
+                    case "Order":
                         Order order = parseOrder(objectData);
                         objectsMap.put(objectKey, order);
                         break;
-                    case "products":
+                    case "Products":
                         Products products = parseProducts(objectData);
                         objectsMap.put(objectKey, products);
                         break;
@@ -167,14 +166,15 @@ public class Storage {
             for (String objectType : objectTypes) {
                 if (objectType.equals(passedObjectType)) {
                     switch (objectType) {
-                        case "order":
+                        case "Order":
                             Order order = (Order) object;
-                            objectKey = "order." + order.getId();
+                            objectKey = "Order." + order.getId();
                             jsonObject.put(objectKey, order.toString());
+                            System.out.println(objectKey);
                             break;
-                        case "products":
+                        case "Products":
                             Products products = (Products) object;
-                            objectKey = "products." + products.getId();
+                            objectKey = "Products." + products.getId();
                             jsonObject.put(objectKey, products.toString());
                             break;
                         default:
@@ -199,6 +199,43 @@ public class Storage {
         } catch (Exception e) {
             e.printStackTrace();
         }
-            
+    }
+
+    /**
+     * Delete the object from the JSON file
+     * 
+     * @param object
+     *
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public void deleteObject(String objectId) {
+        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObjectReloaded = (JSONObject) reloadObjects();
+        for (Object key : jsonObjectReloaded.keySet()) {
+            String objectKey = (String) key;
+            // Separate the object key to have the object id
+            String[] objectKeyParts = objectKey.split("\\.");
+            String newObjectId = objectKeyParts[1];
+            if (newObjectId.equals(objectId)) {
+                continue;
+            } else {
+                jsonObject.put(objectKey, jsonObjectReloaded.get(objectKey));
+            }
+        }
+
+        try {
+            File file = new File(FILE_PATH);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            // Write the file
+            FileWriter fileWriter = new FileWriter(FILE_PATH);
+            fileWriter.write(jsonObject.toJSONString());
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

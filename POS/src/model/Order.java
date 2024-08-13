@@ -48,6 +48,32 @@ public class Order extends BaseModel {
     this.orderStatus = "Pending";  
   }
 
+  public Order(
+    String customerFirstName, String customerLastName, String customerEmail, String customerPhoneNumber,
+    String customerCity, String customerCountry, String customerLocation, String productName,
+    String productProfile, String productColor, String productTexture, int productGauge,
+    int productQuantity, double productPerMeter, String orderNumber, String orderDate, String orderStatus) {
+
+      super.setId(orderNumber);
+      this.id = orderNumber;
+      this.orderDate = new Date();
+      this.customerFirstName = customerFirstName;
+      this.customerLastName = customerLastName;
+      this.customerEmail = customerEmail;
+      this.customerPhoneNumber = customerPhoneNumber;
+      this.customerLocation = customerLocation;
+      this.customerCity = customerCity;
+      this.customerCountry = customerCountry;
+      this.productName = productName;
+      this.productProfile = productProfile;
+      this.productColor = productColor;
+      this.productTexture = productTexture;
+      this.productGauge = productGauge;
+      this.productQuantity = productQuantity;
+      this.productPerMeter = productPerMeter;
+      this.orderStatus = orderStatus;
+  }
+
   public String getCustomerFirstName() {
     return customerFirstName;
   }
@@ -187,12 +213,16 @@ public class Order extends BaseModel {
       + "}";
   }
 
-  @SuppressWarnings("deprecation")
   public static Order fromString(String data) {
     // Parse the JSON data to an Order object
     // Remove the class name from the JSON object
     data = data.replace("{", "").replace("}", "");
     String[] parts = data.split(",");
+    StringBuilder sb = new StringBuilder();
+    for (int i = 14; i < parts[2].length() - 1; i++) {
+      sb.append(parts[2].charAt(i));
+    }
+
     Order order = new Order(
       parts[3].split(":")[1].replace("\"", "").trim(),
       parts[4].split(":")[1].replace("\"", "").trim(),
@@ -207,11 +237,11 @@ public class Order extends BaseModel {
       parts[13].split(":")[1].replace("\"", "").trim(),
       Integer.parseInt(parts[14].split(":")[1].replace("\"", "").trim()),
       Integer.parseInt(parts[15].split(":")[1].replace("\"", "").trim()),
-      Double.parseDouble(parts[16].split(":")[1].replace("\"", ""))
+      Double.parseDouble(parts[16].split(":")[1].replace("\"", "")),
+      parts[1].split(":")[1].replace("\"", "").trim(),
+      sb.toString(),
+      parts[17].split(":")[1].replace("\"", "").trim()
     );
-    order.setId(parts[1].split(":")[1].replace("\"", "").trim());
-    order.setOrderDate(new Date(parts[2].split(":")[1].replace("\"", "")));
-    order.setOrderStatus(parts[17].split(":")[1].replace("\"", "").trim());
     return order;
   }
 }

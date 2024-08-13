@@ -94,26 +94,25 @@ public class Products extends BaseModel {
        + "\"gauge\": " + this.gauge + "\","
        + "\"width\": " + this.width + "\","
        + "\"color\": \"" + this.color + "\","
-       + "\"texture\": \"" + this.texture + "\""
-       + "\"coilNumber\": \"" + this.coilNumber + "\""
+       + "\"texture\": \"" + this.texture + "\","
+       + "\"coilNumber\": \"" + this.coilNumber + "\","
        + "\"createdAt\": \"" + this.createdAt + "\""
        + "}";
     }
 
     public static Products fromString(String data) {
         data = data.replace("{", "").replace("}", "");
-        System.out.println(data);
         String[] parts = data.split(",");
         Products product = new Products(
-            Double.parseDouble(parts[1].split(":")[1].replace("\"", "")),
-            Double.parseDouble(parts[2].split(":")[1].replace("\"", "")),
-            Integer.parseInt(parts[3].split(":")[1].replace("\"", "")),
-            Double.parseDouble(parts[4].split(":")[1].replace("\"", "")),
-            parts[5].split(":")[1].replace("\"", ""),
+            Double.parseDouble(parts[2].split(":")[1].replace("\"", "").trim()),
+            Double.parseDouble(parts[3].split(":")[1].replace("\"", "").trim()),
+            Integer.parseInt(parts[4].split(":")[1].replace("\"", "").trim()),
+            Double.parseDouble(parts[5].split(":")[1].replace("\"", "").trim()),
             parts[6].split(":")[1].replace("\"", ""),
-            parts[7].split(":")[1].replace("\"", "")
+            parts[7].split(":")[1].replace("\"", ""),
+            parts[8].split(":")[1].replace("\"", "")
         );
-        product.setId(parts[0].split(":")[1].replace("\"", ""));
+        product.setId(parts[1].split(":")[1].replace("\"", ""));
         return product;
     }
 }

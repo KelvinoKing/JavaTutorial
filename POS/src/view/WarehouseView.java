@@ -4,6 +4,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.scene.control.MenuBar;
 import javafx.scene.Scene;
@@ -12,9 +13,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.geometry.Pos;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import controller.WarehouseController;
+import model.Order;
+import model.Products;
+import utils.Storage;
 
 
 public class WarehouseView extends BorderPane {
@@ -62,7 +71,13 @@ public class WarehouseView extends BorderPane {
     this.setTop(menuBar);
     BorderPane.setAlignment(menuBar, Pos.TOP_CENTER);
 
-    addProduct.setOnAction(e -> addProductPane());
+    addProduct.setOnAction(e -> {
+    addProductPane();
+  });
+
+    viewProducts.setOnAction(e -> {
+      viewProductsPane();
+    });
   }
 
   public void addProductPane() {
@@ -113,6 +128,7 @@ public class WarehouseView extends BorderPane {
     Stage popUpStage = new Stage();
     Scene popUpScene = new Scene(addProductPane, 600, 400);
     popUpStage.setScene(popUpScene);
+    popUpStage.setTitle("Add Product");
     popUpStage.show();
 
 
@@ -139,17 +155,107 @@ public class WarehouseView extends BorderPane {
           } catch (NumberFormatException ex) {
             showAllert("Invalid input");
             return;
-          }
+          } 
         }
       });
 
     cancelAddProductButton.setOnAction(e -> {
       popUpStage.close();
+      viewProductsPane();
     });
   }
 
-  private void viewProductsPane() {
-    
+  @SuppressWarnings("unchecked")
+  public void viewProductsPane() {
+    TableView<Products> productTable = new TableView<>();
+    ObservableList<Products> products = FXCollections.observableArrayList();
+
+    Storage storage = new Storage();
+    storage.loadObjects().forEach((key, value) -> {
+      String[] keyParts = key.split("\\.");
+      if (keyParts[0].equals("products")) {
+        Products newProduct = Products.fromString(value.toString());
+        products.add(newProduct);       
+      }
+    });
+
+    productTable.setItems(products);
+    productTable.setEditable(false);
+    productTable.setPlaceholder(new Label("No products available"));
+
+    // Listen to click events on the table
+    productTable.setOnMouseClicked(e -> {
+      Products selectedProduct = productTable.getSelectionModel().getSelectedItem();
+      if (selectedProduct != null && e.getClickCount() == 2) {
+        // Show a popup asking if the user wants to delete the product
+        // If the user clicks yes, delete the product
+        // If the user clicks no, close the popup
+
+        Stage popUpStage = new Stage();
+        GridPane popUpPane = new GridPane();
+        popUpPane.setAlignment(Pos.CENTER);
+        popUpPane.setHgap(10);
+        popUpPane.setVgap(10);
+        popUpPane.setPadding(new Insets(10, 10, 10, 10));
+
+        Label deleteLabel = new Label("Are you sure you want to delete this product?");
+        popUpPane.add(deleteLabel, 0, 0);
+
+        Button yesButton = new Button("Yes");
+        Button noButton = new Button("No");
+
+        HBox buttonBox = new HBox();
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setSpacing(10);
+        buttonBox.getChildren().addAll(yesButton, noButton);
+        popUpPane.add(buttonBox, 0, 1);
+
+        Scene popUpScene = new Scene(popUpPane, 300, 200);
+        popUpStage.setScene(popUpScene);
+        popUpStage.setTitle("Delete Product");
+        popUpStage.show();
+
+        yesButton.setOnAction(event -> {
+          storage.deleteObject(selectedProduct.getId().trim());
+          popUpStage.close();
+          viewProductsPane();
+        });
+
+        noButton.setOnAction(event -> {
+          popUpStage.close();
+        });
+      }
+    });
+
+    TableView.TableViewSelectionModel<Products> selectionModel = productTable.getSelectionModel();
+    selectionModel.setSelectionMode(SelectionMode.MULTIPLE);
+
+    TableColumn<Products, String> coilNumberColumn = new TableColumn<>("Coil Number");
+    coilNumberColumn.setCellValueFactory(new PropertyValueFactory<>("coilNumber"));
+
+    TableColumn<Products, Double> metersColumn = new TableColumn<>("Meters");
+    metersColumn.setCellValueFactory(new PropertyValueFactory<>("meters"));
+
+    TableColumn<Products, Double> weightColumn = new TableColumn<>("Weight (kg)");
+    weightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
+
+    TableColumn<Products, Integer> gaugeColumn = new TableColumn<>("Gauge");
+    gaugeColumn.setCellValueFactory(new PropertyValueFactory<>("gauge"));
+
+    TableColumn<Products, Double> widthColumn = new TableColumn<>("Width (meter)");
+    widthColumn.setCellValueFactory(new PropertyValueFactory<>("width"));
+
+    TableColumn<Products, String> colorColumn = new TableColumn<>("Color");
+    colorColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
+
+    TableColumn<Products, String> textureColumn = new TableColumn<>("Texture");
+    textureColumn.setCellValueFactory(new PropertyValueFactory<>("texture"));
+
+    productTable.getColumns().addAll(
+      coilNumberColumn, metersColumn, weightColumn, gaugeColumn, widthColumn, colorColumn, textureColumn
+    );
+
+    this.setCenter(productTable);
   }
 
   private void showAllert(String message) {

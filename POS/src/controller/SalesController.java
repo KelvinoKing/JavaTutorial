@@ -60,6 +60,6 @@ public class SalesController {
     order.setProductPerMeter(perMeter);
 
     Storage storage = new Storage();
-    storage.saveObject(order);
+    storage.updateObject(order);
   }
 }
